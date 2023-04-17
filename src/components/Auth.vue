@@ -30,17 +30,36 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
-      username: "",
-      password: "",
+      username: '',
+      password: '',
     };
   },
   methods: {
-    authenticate() {
-      // Realizar la autenticación aquí (ej. enviar solicitud a un servidor API)
-      console.log("Usuario:", this.username, "Contraseña:", this.password);
+    async authenticate() {
+      try {
+        const response = await axios.post('http://localhost:3000/login', {
+          username: this.username,
+          password: this.password,
+        });
+
+        if (response.status === 200) {
+          console.log(response.data.message);
+          // Realizar acciones después de una autenticación exitosa
+        } else {
+          console.error('Error de autenticación:', response.data.message);
+        }
+      } catch (error) {
+        if (error.response) {
+          console.error('Error de autenticación:', error.response.data.message);
+        } else {
+          console.error('Error de conexión:', error.message);
+        }
+      }
     },
   },
 };
