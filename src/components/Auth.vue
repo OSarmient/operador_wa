@@ -42,13 +42,15 @@ export default {
   methods: {
     async authenticate() {
       try {
-        const response = await axios.post('http://localhost:3000/login', {
+        const response = await axios.post('http://localhost:8000/logIn', {
           username: this.username,
           password: this.password,
         });
 
         if (response.status === 200) {
-          console.log(response.data.message);
+          console.log(response.data)
+          console.log(response.headers)
+          window.localStorage.setItem('token', response.data.message);
           // Realizar acciones después de una autenticación exitosa
         } else {
           console.error('Error de autenticación:', response.data.message);
