@@ -25,6 +25,7 @@
           Ingresar
         </button>
       </form>
+      <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
     </div>
   </div>
 </template>
@@ -33,10 +34,12 @@
 import axios from 'axios';
 
 export default {
+  name: 'Auth',
   data() {
     return {
       username: '',
       password: '',
+      errorMessage: '',
     };
   },
   methods: {
@@ -48,18 +51,19 @@ export default {
         });
 
         if (response.status === 200) {
-          console.log(response.data)
-          console.log(response.headers)
-          window.localStorage.setItem('token', response.data.message);
+          // console.log(response.headers)
+          window.localStorage.setItem('username', this.username);
+          window.localStorage.setItem('token', response.data.auth_token);
           // Realizar acciones después de una autenticación exitosa
+          this.$router.push('/'); //this.$router.push({ name: 'Home' });
         } else {
-          console.error('Error de autenticación:', response.data.message);
+          this.errorMessage = 'No es 200: ' + response.data.message;
         }
       } catch (error) {
         if (error.response) {
-          console.error('Error de autenticación:', error.response.data.message);
+          this.errorMessage = 'Error de otra cosa: ' + error.response.data.message;
         } else {
-          console.error('Error de conexión:', error.message);
+          this.errorMessage = 'Error de conexión: ' + error.message;
         }
       }
     },
@@ -110,5 +114,11 @@ button {
 button:hover {
   background-color: #0056b3;
   border-color: #0056b3;
+}
+
+.error-message {
+  color: #dc3545;
+  margin-top: 1rem;
+  text-align: center;
 }
 </style>

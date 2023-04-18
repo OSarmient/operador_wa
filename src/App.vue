@@ -1,16 +1,12 @@
 <template>
-  <div id="app">
-    <Auth />
-  </div>
+  <router-view />
 </template>
 
 <script>
-import Auth from "./components/Auth.vue";
+import Auth from "@/components/Auth.vue";
 
 export default {
-  components: {
-    Auth,
-  },
+  name : "App",
 };
 </script>
 
