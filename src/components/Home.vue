@@ -18,6 +18,9 @@
   </template>
   
   <script>
+  import io from 'socket.io-client';
+  import axios from 'axios';
+
   export default {
     name: 'Home',
     data() {
@@ -38,7 +41,7 @@
       // Aquí puedes obtener el nombre de usuario desde la API, el almacenamiento local, etc.
       this.username = window.localStorage.getItem('username');
 
-      this.socket = io('http://localhost:3000');
+      this.socket = io('http://localhost:8001');
 
       this.socket.on('connect', () => {
         console.log('Conectado al servidor');
@@ -71,14 +74,15 @@
           console.error('Error al cerrar sesión:', error);
         }
       },
-      sendMessage() {
+       sendMessage() {
         if (this.newMessage.trim() === '') {
           return;
         }
 
         this.socket.emit('message', {
-          sender: this.username,
-          text: this.newMessage,
+          auth_token: window.localStorage.getItem('token'),
+          id_chat: 1,
+          mensaje: this.newMessage,
         });
         this.newMessage = '';
       },
