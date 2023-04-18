@@ -55,9 +55,10 @@
       async logout() {
         
         try {
+          
           const token = window.localStorage.getItem('token');
           const username = window.localStorage.getItem('username');
-
+          
           // Preparar el cuerpo de la petición con el token y el nombre de usuario
           const requestBody = {
             token,
@@ -65,8 +66,8 @@
           };
 
           // Enviar petición al backend para cerrar sesión
-          await axios.post('http://localhost:3000/logOut', requestBody);
-
+          await axios.post('http://localhost:8000/logOut', requestBody);
+          console.log('Cerrando sesión...');
           // Eliminar el token del almacenamiento local y redirigir al usuario a la página de inicio de sesión
           window.localStorage.removeItem('token');
           this.$router.push('/login');
