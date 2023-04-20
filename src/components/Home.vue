@@ -1,6 +1,6 @@
 <template>
   <div class="home-container">
-    <h1>Bienvenido, {{ username }}!</h1>
+    <Nav />
       <div class="chat-container">
         <div class="messages">
           <div v-for="message in messages" :key="message.id" :class="['message', { 'own-message': message.sender === username }]">
@@ -13,23 +13,24 @@
           <button @click="sendMessage">Enviar</button>
         </div>
       </div>
-      <button class="logout-button" @click="logout">Cerrar sesión</button>
     </div>
   </template>
   
   <script>
   import io from 'socket.io-client';
-  import axios from 'axios';
+  import Nav from '../views/Nav.vue';
 
   export default {
     name: 'Home',
     data() {
       return {
-        username: '',
         messages: [],
         newMessage: '',
         socket: null,
       };
+    },
+    components: {
+      Nav,
     },
     beforeCreate(){
       const token = window.localStorage.getItem('token');
@@ -38,6 +39,7 @@
       }
     },
     mounted() {
+
       // Aquí puedes obtener el nombre de usuario desde la API, el almacenamiento local, etc.
       this.idroom = window.localStorage.getItem('token');
 
@@ -56,29 +58,6 @@
       });
     },
     methods: {
-      async logout() {
-        
-        try {
-          
-          const token = window.localStorage.getItem('token');
-          const username = window.localStorage.getItem('username');
-          
-          // Preparar el cuerpo de la petición con el token y el nombre de usuario
-          const requestBody = {
-            auth_token: token,
-            username,
-          };
-
-          // Enviar petición al backend para cerrar sesión
-          await axios.post('http://localhost:8000/logOut', requestBody);
-          console.log('Cerrando sesión...');
-          // Eliminar el token del almacenamiento local y redirigir al usuario a la página de inicio de sesión
-          window.localStorage.removeItem('token');
-          this.$router.push('/login');
-        } catch (error) {
-          console.error('Error al cerrar sesión:', error);
-        }
-      },
        sendMessage() {
         if (this.newMessage.trim() === '') {
           return;
@@ -99,7 +78,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   height: 100vh;
 }
 
@@ -170,16 +148,6 @@ button:hover {
 h1 {
   font-size: 2rem;
   margin-bottom: 2rem;
-}
-
-.logout-button {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  color: #fff;
-  background-color: #dc3545;
-  border: 1px solid #dc3545;
-  border-radius: 5px;
-  cursor: pointer;
 }
 
 .logout-button:hover {
