@@ -4,6 +4,7 @@
           <div v-for="message in messages" :key="message.id" :class="['message', { 'own-message': message.sender === username }]">
               <span class="message-sender">{{ message.sender }}</span>
               <p class="message-text">{{ message.text }}</p>
+              <p class="message-hour"> {{ message.hora_mensaje }}</p>
           </div>
       </div>
     </section>
@@ -25,6 +26,7 @@
                 newMessage: '',
                 socket: null,
                 messagesContainer: null,
+                hora_mensaje: '',
             };
         },
         mounted() {
@@ -68,9 +70,11 @@
                 this.messages.push({
                     sender: this.username,
                     text: this.newMessage,
+                    hora_mensaje: new Date().toLocaleTimeString(),
                 });
 
                 this.newMessage = '';
+                console.log(this.messages)
             },
         },
     }
@@ -86,7 +90,7 @@
   }
 
   .messages {
-    width: 80%;
+    width: 95%;
     overflow-y: auto;
     flex-grow: 1;
     padding: 1rem;
@@ -95,7 +99,7 @@
   }
   
   .message {
-    margin-bottom: 1rem;
+    margin-bottom: 0;
   }
   
   .own-message {
@@ -108,6 +112,14 @@
     font-size: 0.9rem;
   }
   
+  /*.message-text:not(.own-message) {
+    display: table-cell;
+    padding: 0.5rem;
+    border-radius: 5px;
+    margin: 0;
+    border: 1px solid #ccc;
+  }*/
+
   .message-text {
     min-width: 1rem;
     padding: 0.5rem;
@@ -116,11 +128,17 @@
     color: #fff;
     background-color: #dc3545;
   }
-
   .input-container {
     display: flex;
     padding: 1rem;
     border-top: 1px solid #ccc;
+  }
+
+  .message-hour {
+    font-size: 0.8rem;
+    color: #ccc;
+    margin: 0;
+    margin-bottom: 0.5rem;
   }
   
   input {
