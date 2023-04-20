@@ -1,16 +1,16 @@
 <template>
-    <section>
-        <div class="messages">
-            <div v-for="message in messages" :key="message.id" :class="['message', { 'own-message': message.sender === username }]">
-                <span class="message-sender">{{ message.sender }}</span>
-                <p class="message-text">{{ message.text }}</p>
-            </div>
-        </div>
-        <div class="input-container">
-            <input type="text" v-model="newMessage" @keyup.enter="sendMessage" placeholder="Escribe un mensaje" />
-            <button @click="sendMessage">Enviar</button>
-        </div>
+    <section id="MS" ref="messagesContainer">
+      <div class="messages">
+          <div v-for="message in messages" :key="message.id" :class="['message', { 'own-message': message.sender === username }]">
+              <span class="message-sender">{{ message.sender }}</span>
+              <p class="message-text">{{ message.text }}</p>
+          </div>
+      </div>
     </section>
+    <div class="input-container">
+        <input type="text" v-model="newMessage" @keyup.enter="sendMessage" placeholder="Escribe un mensaje" />
+        <button @click="sendMessage">Enviar</button>
+    </div>
 </template>
 
 <script>
@@ -24,9 +24,13 @@
                 messages: [],
                 newMessage: '',
                 socket: null,
+                messagesContainer: null,
             };
         },
         mounted() {
+
+            this.messagesContainer = this.$refs.messagesContainer;
+
             this.idroom = window.localStorage.getItem('token');
 
             this.socket = io('http://localhost:8001',{
@@ -46,6 +50,9 @@
                 console.log(data);
             });
         },
+        updated() {
+            this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+        },
         methods: {
             sendMessage() {
                 if (this.newMessage.trim() === '') {
@@ -62,7 +69,7 @@
                     sender: this.username,
                     text: this.newMessage,
                 });
-                console.log(this.messages);
+
                 this.newMessage = '';
             },
         },
@@ -72,12 +79,19 @@
 
 <style scoped>
 
+  #MS{
+    overflow: hidden;
+    overflow-y: scroll;
+    
+  }
+
   .messages {
     width: 80%;
     overflow-y: auto;
     flex-grow: 1;
     padding: 1rem;
     word-break: break-all;
+    
   }
   
   .message {
@@ -95,7 +109,6 @@
   }
   
   .message-text {
-    
     min-width: 1rem;
     padding: 0.5rem;
     border-radius: 5px;
@@ -103,7 +116,7 @@
     color: #fff;
     background-color: #dc3545;
   }
-  
+
   .input-container {
     display: flex;
     padding: 1rem;
