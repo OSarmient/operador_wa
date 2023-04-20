@@ -41,6 +41,10 @@
             this.socket.on('message', (message) => {
                 this.messages.push(message);
             });
+
+            this.socket.on('notification', (data) => {
+                console.log(data);
+            });
         },
         methods: {
             sendMessage() {
