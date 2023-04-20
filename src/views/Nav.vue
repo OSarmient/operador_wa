@@ -58,8 +58,11 @@
     }
 
     h1 {
+        font-size: 2rem;
+        margin-bottom: 2rem;
         margin-left: 1rem;
     }
+      
     .logout-button {
         padding: 0.5rem 1rem;
         font-size: 1rem;
@@ -70,4 +73,10 @@
         cursor: pointer;
         margin-right: 1rem;
     }
+
+    .logout-button:hover {
+        background-color: #c82333;
+        border-color: #c82333;
+    }
+
 </style>
