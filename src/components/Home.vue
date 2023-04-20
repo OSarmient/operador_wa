@@ -39,9 +39,13 @@
     },
     mounted() {
       // Aquí puedes obtener el nombre de usuario desde la API, el almacenamiento local, etc.
-      this.username = window.localStorage.getItem('username');
+      this.idroom = window.localStorage.getItem('token');
 
-      this.socket = io('http://localhost:8001');
+      this.socket = io('http://localhost:8001',{
+        withCredentials: false,
+        extraHeaders: {"auth_token": this.idroom}
+      }
+      );
 
       this.socket.on('connect', () => {
         console.log('Conectado al servidor');
@@ -61,7 +65,7 @@
           
           // Preparar el cuerpo de la petición con el token y el nombre de usuario
           const requestBody = {
-            token,
+            auth_token: token,
             username,
           };
 
@@ -81,7 +85,6 @@
         }
 
         this.socket.emit('message', {
-          auth_token: window.localStorage.getItem('token'),
           id_chat: 1,
           mensaje: this.newMessage,
         });
