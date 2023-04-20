@@ -44,8 +44,8 @@
                 console.log('Conectado al servidor');
             });
 
-            this.socket.on('message', (message) => {
-                this.messages.push(message);
+            this.socket.on('message', ({id_chat, texto_mensaje, hora_mensaje}) => {
+                this.messages.push({sender: id_chat, text: texto_mensaje, hora_mensaje: hora_mensaje});
             });
 
             this.socket.on('notification', (data) => {
@@ -112,13 +112,19 @@
     font-size: 0.9rem;
   }
   
-  /*.message-text:not(.own-message) {
+  .message-text{
     display: table-cell;
     padding: 0.5rem;
     border-radius: 5px;
     margin: 0;
     border: 1px solid #ccc;
-  }*/
+    background-color: #dc3545;
+  }
+  
+  .message:not(.own-message) .message-text {
+    background-color: #324481;
+    border-color: #324481;
+  }
 
   .message-text {
     min-width: 1rem;
@@ -126,7 +132,6 @@
     border-radius: 5px;
     margin: 0;
     color: #fff;
-    background-color: #dc3545;
   }
   .input-container {
     display: flex;
