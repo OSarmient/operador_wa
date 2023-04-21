@@ -9,7 +9,7 @@
       </div>
     </section>
     <div class="input-container">
-        <input type="text" v-model="newMessage" @keyup.enter="sendMessage" placeholder="Escribe un mensaje" />
+        <textarea v-model="newMessage" @keyup.enter="sendMessage" placeholder="Escribe un mensaje"></textarea>
         <button @click="sendMessage">Enviar</button>
     </div>
 </template>
@@ -95,7 +95,6 @@
     flex-grow: 1;
     padding: 1rem;
     word-break: break-all;
-    
   }
   
   .message {
@@ -113,12 +112,14 @@
   }
   
   .message-text{
-    display: table-cell;
+    display: table;
     padding: 0.5rem;
     border-radius: 5px;
     margin: 0;
-    border: 1px solid #ccc;
-    background-color: #dc3545;
+    margin-left: auto;
+    color: #292b2c;
+    background-color: #e3effd;
+    /*#f6f6f6*/
   }
   
   .message:not(.own-message) .message-text {
@@ -126,13 +127,6 @@
     border-color: #324481;
   }
 
-  .message-text {
-    min-width: 1rem;
-    padding: 0.5rem;
-    border-radius: 5px;
-    margin: 0;
-    color: #fff;
-  }
   .input-container {
     display: flex;
     padding: 1rem;
@@ -144,29 +138,34 @@
     color: #ccc;
     margin: 0;
     margin-bottom: 0.5rem;
+    display: table;
+    margin-left: auto;
   }
   
-  input {
+  textarea{
     flex-grow: 1;
     padding: 0.5rem;
     border: 1px solid #ccc;
     border-radius: 5px;
+    overflow-wrap: break-word;
+    resize: none;
+    font-family: Arial, sans-serif;
   }
   
   button {
     padding: 0.5rem 1rem;
     font-size: 1rem;
     color: #fff;
-    background-color: #dc3545;
-    border: 1px solid #dc3545;
+    background-color: #007bff;
+    border: 1px solid #007bff;
     border-radius: 5px;
     cursor: pointer;
     margin-left: 1rem;
   }
   
   button:hover {
-    background-color: #c82333;
-    border-color: #c82333;
+    background-color: #0056b3;
+    border-color: #0056b3;
   }
 
 </style>
