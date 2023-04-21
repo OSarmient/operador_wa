@@ -4,7 +4,8 @@ export const store = createStore({
   state() {
     return {
       backURL: 'http://localhost:8000',
-      sername: '',
+      auth_token: '',
+      username: '',
       chats_actuales: [],
       chats_atendidos: [],
       chats_por_atender: [],
@@ -12,8 +13,13 @@ export const store = createStore({
     }
   },
   mutations: {
-    setSername(state, sername) {
-      state.sername = sername;
+    setUsername(state, username) {
+      window.localStorage.setItem('username', username);
+      state.username = username;
+    },
+    setAuthToken(state, auth_token){
+      window.localStorage.setItem('token', response.data.auth_token);
+      state.auth_token = auth_token;
     },
     setChatsActuales(state, chats_actuales) {
       state.chats_actuales = chats_actuales;
@@ -38,8 +44,8 @@ export const store = createStore({
     }
  },
   actions: { //De acá se fechea la data aprovechando que acá se hace asincrono
-    setSername({ commit }, sername) {
-      commit('setSername', sername);
+    setSername({ commit }, username) {
+      commit('setSername', username);
     },
     setChatsActuales({ commit }, chats_actuales) {
       commit('setChatsActuales', chats_actuales);
@@ -65,7 +71,7 @@ export const store = createStore({
   },
   getters: {
     getSername(state) {
-      return state.sername;
+      return state.username;
     },
     getChatsActuales(state) {
       return state.chats_actuales;

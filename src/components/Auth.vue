@@ -51,10 +51,10 @@ export default {
         });
 
         if (response.status === 200) {
-          // console.log(response.headers)
+
+          //Reemplazar esto por el uso de la store
           window.localStorage.setItem('username', this.username);
           window.localStorage.setItem('token', response.data.auth_token);
-          // Realizar acciones después de una autenticación exitosa
           this.$router.push('/'); //this.$router.push({ name: 'Home' });
         } else {
           this.errorMessage = 'No es 200: ' + response.data.message;
