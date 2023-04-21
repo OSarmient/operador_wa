@@ -23,7 +23,57 @@
         this.$router.push('/login');
       }
     },
-    
+    mounted() {
+      // Aquí puedes obtener el nombre de usuario desde la API, el almacenamiento local, etc.
+      this.username = window.localStorage.getItem('username');
+
+      this.socket = io('http://localhost:8001');
+
+      this.socket.on('connect', () => {
+        console.log('Conectado al servidor');
+      });
+
+      this.socket.on('message', (message) => {
+        this.messages.push(message);
+      });
+    },
+    methods: {
+      async logout() {
+        
+        try {
+          
+          const auth_token = window.localStorage.getItem('token');
+          const username = window.localStorage.getItem('username');
+          
+          // Preparar el cuerpo de la petición con el token y el nombre de usuario
+          const requestBody = {
+            auth_token,
+            username,
+          };
+          // console.log('Cerrando sesión...');
+          // Enviar petición al backend para cerrar sesión
+          await axios.post('http://localhost:8000/logOut', requestBody);
+          
+          // Eliminar el token del almacenamiento local y redirigir al usuario a la página de inicio de sesión
+          window.localStorage.removeItem('token');
+          this.$router.push('/login');
+        } catch (error) {
+          console.error('Error al cerrar sesión:', error);
+        }
+      },
+       sendMessage() {
+        if (this.newMessage.trim() === '') {
+          return;
+        }
+
+        this.socket.emit('message', {
+          auth_token: window.localStorage.getItem('token'),
+          id_chat: 1,
+          mensaje: this.newMessage,
+        });
+        this.newMessage = '';
+      },
+    },
   };
   </script>
 
