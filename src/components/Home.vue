@@ -10,7 +10,7 @@
   <script>
   import Nav from '../views/Nav.vue';
   import Chat from '../views/Chat.vue';
-
+  
   export default {
     name: 'Home',
     components: {
@@ -26,16 +26,6 @@
     mounted() {
       // Aquí puedes obtener el nombre de usuario desde la API, el almacenamiento local, etc.
       this.username = window.localStorage.getItem('username');
-
-      this.socket = io('http://localhost:8001');
-
-      this.socket.on('connect', () => {
-        console.log('Conectado al servidor');
-      });
-
-      this.socket.on('message', (message) => {
-        this.messages.push(message);
-      });
     },
     methods: {
       async logout() {
@@ -90,7 +80,7 @@
   height: 100%;
   background-color: #ffffff;
   border: 1px solid #ccc;
-  overflow: hidden;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

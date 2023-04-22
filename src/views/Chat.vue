@@ -84,9 +84,23 @@
 <style scoped>
 
   #MS{
-    overflow: hidden;
-    overflow-y: scroll;
-    
+    overflow: none;
+    overflow-y: auto;
+    scrollbar-width: 6px; /* Ancho del scroll bar en Firefox */
+    scrollbar-color: #999 #F5F5F5;
+  }
+
+  #MS::-webkit-scrollbar {
+    width: 6px; /* Ancho del scroll bar */
+  }
+  
+  #MS::-webkit-scrollbar-track {
+    background-color: #F5F5F5; /* Color de fondo de la pista del scroll bar */
+  }
+  
+  #MS::-webkit-scrollbar-thumb {
+    background-color: #999; /* Color del deslizador (thumb) del scroll bar */
+    border-radius: 3px; /* Añade bordes redondeados al deslizador del scroll bar */
   }
 
   .messages {
@@ -96,8 +110,10 @@
     padding: 1rem;
     word-break: break-all;
   }
+
   
   .message {
+    overflow: auto;
     margin-bottom: 0;
   }
   
