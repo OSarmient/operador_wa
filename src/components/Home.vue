@@ -1,12 +1,14 @@
 <template>
   <div class="home-container">
     <Nav />
+    <div class="home-chat-selector-container">
       <div class="chat-selector-container">
         <ChatSelector />
       </div>
       <div class="chat-container">
         <Chat />
       </div>
+    </div>
   </div>
 </template>
   
@@ -74,22 +76,30 @@
 
 <style >
 .home-container {
-  /*display: flex;
+  display: flex;
   align-items: end;
-  flex-direction: column;*/
+  flex-direction: column;
+  height: calc(100vh - 115px);
+}
+
+.home-chat-selector-container{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
   height: 100%;
+  min-height: 100%;
 }
 
 .chat-selector-container {
-  /*background-color: #ffffff;
-  border: 1px solid #ccc;*/
-  /*overflow: auto;*/
-  /*display: flex;*/
-  /*flex-direction: column;
-  justify-content: flex-start;*/
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 20%;
   height: 100%;
 }
-
 
 .chat-container {
   width: 80%;
@@ -101,8 +111,6 @@
   flex-direction: column;
   justify-content: space-between;
 }
-
-
 
 
 </style>

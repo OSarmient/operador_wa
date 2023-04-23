@@ -145,6 +145,8 @@
   }
   
   .message-sender {
+    display: table;
+    margin-left: auto;
     font-weight: bold;
     font-size: 0.9rem;
   }
