@@ -1,7 +1,7 @@
 <template>
     <section id="MS" ref="messagesContainer">
       <div class="messages">
-          <div v-for="message in messages" :key="message.id" :class="['message', { 'own-message': message.sender === username }]">
+          <div v-for="message in messages" :key="message.id" :class="['message', { 'own-message': message.sender === username  || message.de_operador}]">
               <span class="message-sender">{{ message.sender }}</span>
               <p class="message-text">{{ message.text }}</p>
               <p class="message-hour"> {{ message.hora_mensaje }}</p>
@@ -16,6 +16,8 @@
 
 <script>
     import io from 'socket.io-client';
+    import axios from 'axios';
+    import dataFormatter from '../../utils/dataFormatter';
 
     export default {
         name: 'Chat',
@@ -34,6 +36,25 @@
             this.messagesContainer = this.$refs.messagesContainer;
 
             this.idroom = window.localStorage.getItem('token');
+            this.username = window.localStorage.getItem('username');
+
+            axios.post('http://localhost:8000/usuariosPorAtender', {
+                auth_token: this.idroom,
+                id_operador: this.username, 
+                limit: 100, 
+                limit_mensajes: 100, 
+                offset_mensajes: 0, 
+                con_operador: true
+            }).then((response) => {
+
+              response.data.data.chat.forEach(Mensajes => {              
+                Mensajes.Mensajes.forEach(element => {
+                  this.messages.push({sender: Mensajes.Usuarios.primer_nombre, text: element.texto_mensaje, hora_mensaje: dataFormatter(new Date(parseInt(element.hora_mensaje))), de_operador: element.de_operador});
+                });
+              });
+
+            }).catch((error) => {
+                console.log(error)});
 
             this.socket = io('http://localhost:8001',{
                 withCredentials: false,
@@ -51,6 +72,7 @@
             this.socket.on('notification', (data) => {
                 console.log(data);
             });
+            
         },
         updated() {
             this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
