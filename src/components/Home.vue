@@ -1,18 +1,16 @@
 <template>
   <div class="home-container">
     <Nav />
-    <div class="home-chat-selector-container">
       <div class="chat-selector-container">
         <ChatSelector />
       </div>
       <div class="chat-container">
         <Chat />
       </div>
-    </div>
-    </div>
-  </template>
+  </div>
+</template>
   
-  <script>
+<script>
   import Nav from '../views/Nav.vue';
   import Chat from '../views/Chat.vue';
   import ChatSelector from '../views/ChatSelector.vue';
@@ -76,12 +74,21 @@
 
 <style >
 .home-container {
-  display: flex;
+  /*display: flex;
   align-items: end;
-  flex-direction: column;
+  flex-direction: column;*/
   height: 100%;
 }
 
+.chat-selector-container {
+  /*background-color: #ffffff;
+  border: 1px solid #ccc;*/
+  /*overflow: auto;*/
+  /*display: flex;*/
+  /*flex-direction: column;
+  justify-content: flex-start;*/
+  height: 100%;
+}
 
 
 .chat-container {
@@ -95,15 +102,7 @@
   justify-content: space-between;
 }
 
-.chat-selector-container {
-  background-color: #ffffff;
-  border: 1px solid #ccc;
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  height: 88vh;
-}
+
 
 
 </style>
