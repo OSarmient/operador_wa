@@ -4,7 +4,7 @@
           <div v-for="message in messages" :key="message.id" :class="['message', { 'own-message': message.sender === username  || message.de_operador}]">
               <span class="message-sender">{{ message.sender }}</span>
               <p class="message-text">{{ message.text }}</p>
-              <p class="message-hour"> {{ message.hora_mensaje }}</p>
+              <p class="message-hour"> {{formatHour(message.hora_mensaje)}}</p>
           </div>
       </div>
     </section>
@@ -72,7 +72,7 @@
             this.socket.on('notification', (data) => {
                 console.log(data);
             });
-            
+                  
         },
         updated() {
             this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
@@ -92,12 +92,22 @@
                 this.messages.push({
                     sender: this.username,
                     text: this.newMessage,
-                    hora_mensaje: new Date().toLocaleTimeString(),
+                    hora_mensaje: Date.now(),
                 });
 
                 this.newMessage = '';
                 console.log(this.messages)
             },
+            formatHour(value){
+              //console.log('value', value);
+              if(!value) return ''
+              const date = new Date(value)
+              //console.log('Parsed date', date);
+              const hour = date.getHours().toString().padStart(2, '0')
+              const minutes = date.getMinutes().toString().padStart(2, '0')
+              return `${hour}:${minutes}`
+            }
+            
         },
     }
 
@@ -162,9 +172,16 @@
     /*#f6f6f6*/
   }
   
+  .message:not(.own-message) .message-sender {
+    margin-left: 0;
+  }
+
   .message:not(.own-message) .message-text {
-    background-color: #324481;
-    border-color: #324481;
+    margin-left: 0; 
+    background-color: #ccc;
+  }
+  .message:not(.own-message) .message-hour {
+    margin-left: 0; 
   }
 
   .input-container {
